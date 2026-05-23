@@ -13,3 +13,10 @@ Python 3.10+ (для запуска скриптов автоматизации 
 # Клонируем репозиторий проекта
 git clone https://github.com/bethington/ghidra-mcp.git
 cd ghidra-mcp
+```
+Далее скрипту автоматизации нужно импортировать JAR-файлы вашей установленной Ghidra в локальный репозиторий Maven. Замените /path/to/ghidra на реальный путь к папке, где распакована Ghidra (например, C:\ghidra_12.0.4_PUBLIC на Windows или /opt/ghidra на Linux):
+```bash
+# Импорт зависимостей Ghidra в Maven
+python -m tools.setup install-ghidra-deps --ghidra-path "/path/to/ghidra"
+```
+![Uploading image.png…]()
