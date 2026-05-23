@@ -19,4 +19,5 @@ cd ghidra-mcp
 # Импорт зависимостей Ghidra в Maven
 python -m tools.setup install-ghidra-deps --ghidra-path "/path/to/ghidra"
 ```
-![Uploading image.png…]()
+
+<img width="833" height="320" alt="image" src="https://github.com/user-attachments/assets/c17973b1-d75d-40d1-b950-787a172e4176" />
