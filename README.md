@@ -31,3 +31,47 @@ python -m tools.setup install-ghidra-deps --ghidra-path "/path/to/ghidra"
 ```bash
 mvn -v
 ```
+Шаг 3: Сборка и деплой плагина
+Запустите процесс проверки зависимостей, компиляции Java-кода и копирования готового расширения в рабочую директорию Ghidra:
+```bash
+# 1. Проверка окружения
+python -m tools.setup ensure-prereqs --ghidra-path "/path/to/ghidra"
+
+# 2. Компиляция проекта
+python -m tools.setup build
+
+# 3. Деплой расширения в Ghidra
+python -m tools.setup deploy --ghidra-path "/path/to/ghidra"
+```
+Примечание: Скрипт автоматически установит скомпилированное расширение в вашу пользовательскую директорию расширений Ghidra (например, ~/.ghidra/.ghidra_.../Extensions/).
+
+Шаг 4: Активация плагина в самой Ghidra
+Запустите Ghidra привычным способом.
+Откройте любой проект и перейдите в окно анализа кода (CodeBrowser).
+В верхнем меню выберите: File -> Configure...
+В появившемся окне нажмите на Configure All Plugins (в правом верхнем углу) как на скриншоте.
+<img width="1211" height="885" alt="image" src="https://github.com/user-attachments/assets/279a9aab-7b25-4ddf-bacb-e94fe0bb2d3a" />
+Найдите в списке GhidraMCP и поставьте напротив него галочку для активации.
+<img width="1224" height="242" alt="image" src="https://github.com/user-attachments/assets/adea5a32-be9f-4028-9c0a-5d94f06bffc7" />
+(Опционально) Если вам нужно изменить стандартный порт, зайдите в: Edit -> Tool Options -> GhidraMCP HTTP Server. Рекомендую для начала поставить порт 8081, тк 8080 может быть занят другим процессом, если не конектится, попробовать другой порт, напрмиер 8080. Также в дальнейшем нужно будет изменять порт в написанном JSON для MCP(следующий шаг).
+<img width="1224" height="469" alt="image" src="https://github.com/user-attachments/assets/8994990c-cebf-40ca-b09f-76713ce73c06" />
+Запуск сервера: Теперь в верхнем меню Ghidra появится новый пункт: Tools -> GhidraMCP -> Start MCP Server. Нажмите его. Сервер запустится локально на 127.0.0.1 без авторизации.
+<img width="982" height="386" alt="image" src="https://github.com/user-attachments/assets/d76e6703-212e-4556-84f8-cf46fcbe0575" />
+
+Шаг 5: Подключение AI-клиента (для начала поставим на базе UI OpenCode: https://opencode.ai/ , в дальнейшем для работы в бигтех компания или же для конфедициалтности наших данных, мы установим локальную модель)
+Чтобы ваш ИИ-ассистент увидел инструменты Ghidra, добавьте конфигурацию сервера в файл настроек вашего MCP-клиента.
+Проект OpenCode использует файл конфигурации opencode.json (или opencode.jsonc) для управления своими MCP-серверами.
+Убедитесь, что в Ghidra вы перешли в Tools -> GhidraMCP -> Start MCP Server.
+В файле opencode.json пропишите следующий блок (этот файл нужно создать или скопировать из репозитория):
+```json
+{
+  "$schema": "https://opencode.ai/config.json",
+  "mcp": {
+    "ghidra": {
+      "enabled": true,
+      "type": "remote",
+      "url": "http://127.0.0.1:8081/mcp"
+    }
+  }
+}
+```
