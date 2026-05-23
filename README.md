@@ -9,7 +9,7 @@ Python 3.10+ (для запуска скриптов автоматизации 
 
 Шаг 2: Клонирование репозитория и установка зависимостей
 Откройте терминал (или PowerShell / командную строку на Windows) и выполните команды:
-```python
+```bash
 # Клонируем репозиторий проекта
 git clone https://github.com/bethington/ghidra-mcp.git
 cd ghidra-mcp
